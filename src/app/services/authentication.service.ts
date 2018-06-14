@@ -12,7 +12,7 @@ export class AuthenticationService {
   constructor(private _http: HttpClient) { }
 
   getApiToken(orderId: string, userId: string, lang: string): Observable<string> {
-    const body = JSON.stringify({ 'UserID': userId });
+    const body = { 'UserID': userId };
     return this._http.post<string>(apiReference.API_POST_TOKEN, body).pipe(
       map(res => {
         return res;

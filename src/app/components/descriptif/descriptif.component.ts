@@ -58,6 +58,7 @@ export class DescriptifComponent implements OnInit {
       });
 
       this.patchDataArray(items);
+      console.log(this.descriptifForm);
     });
     // console.log('ngOnInt');
   }

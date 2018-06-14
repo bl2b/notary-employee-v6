@@ -1,121 +1,158 @@
 
 
-
-
-  <div class="container-fluid">
-      <!-- <pre>Value: {{ descriptifsDto?.value | json }}</pre>
+<div class="container-fluid">
+    <!-- <pre>Value: {{ descriptifsDto?.value | json }}</pre>
            <br>Dirty: {{ descriptifForm.dirty }}
           <br>Touched: {{ descriptifForm.touched }}
           <br>Valid: {{ form.valid }} -->
 
-      <div class="row">
-          <div class="col">
-              <button type="button" (click)="saveDescriptif()" class="btn btn-default float-right mr-2 save-btn-m mb-2 mt-5">
-                  <i class="fa fa-save"></i>
-                  <b>
-                      Save All
-                  </b>
-              </button>
-              <!-- <button mat-raised-button color="primary" class="float-right mr-2 mb-2 mt-5" (click)="saveDescriptif()">Save All</button> -->
-          </div>
-      </div>
-      <!-- reactive form -->
-      <!-- <pre>{{ descriptifForm.value | json }}</pre> -->
-      <div class="row">
-          <div class="col">
-              <form [formGroup]="descriptifForm" novalidate class="form-control-sm">
-                  <div formArrayName="data">
-                      <!--Accordion wrapper start here-->
-                      <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+    <div class="row">
+        <div class="col">
+            <button type="button" (click)="saveDescriptif()" class="test btn btn-default float-right mr-2 save-btn-m mb-2 mt-5">
+                <i class="fa fa-save"></i>
+                <b>
+                    Save All
+                </b>
+            </button>
+            <!-- <button mat-raised-button color="primary" class="float-right mr-2 mb-2 mt-5" (click)="saveDescriptif()">Save All</button> -->
+        </div>
+    </div>
+    <!-- reactive form -->
+    <!-- <pre>{{ descriptifForm.value | json }}</pre> -->
+    <div class="row">
+        <div class="col">
+            <form [formGroup]="descriptifForm" novalidate class="form-control-sm">
+                <div formArrayName="data">
+                    <!--Accordion wrapper start here-->
+ 
+                    <mdb-squeezebox [multiple]="false" aria-multiselectable="true">
+                        <mdb-item [collapsed]="true" [formGroupName]="a" *ngFor="let desc of getDescriptif(descriptifForm); let a = index">
+                            <mdb-item-head class="btn-success waves-light mb-1" mdbWavesEffect>{{ desc.value.Title }}</mdb-item-head>
+                            <mdb-item-body> 
+                                <div formArrayName="Groups">
+                                    <div *ngIf="desc.value.Id != 69">
+                                        <div [formGroupName]="b" *ngFor="let group of getGroups(desc); let b = index">
+                                            <div formArrayName="Fields">
+                                                <div class="row" [formGroupName]="c" *ngFor="let field of getFields(group); let c = index">
+                                                    <div class="form-group col-3" *ngIf="(field.value.Type == 1 && field.value.Id == '01e0d9a6-77dd-4a2f-a8ae-d4bae6ed705d')">
+                                                        <div formArrayName="Answers">
+                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                <div class="md-form">
+                                                                    <input type="text" formControlName="Data_FR" class="form-control" id="titre" mdbInputDirective>
+                                                                    <label for="titre">{{ field.value.Label }}</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                          <!-- Accordion card -->
-                          <div class="card">
+                                                    <div class="form-group col-12" *ngIf="(field.value.Type == 1 && field.value.Id == 'd2de1189-2d6c-4fc2-9567-1d0bde49ba92')">
+                                                        <div formArrayName="Answers">
+                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                <div class="md-form">
+                                                                    <textarea formControlName="Data_FR" class="md-textarea form-control" id="defaultForm-pass" mdbInputDirective></textarea>
+                                                                    <label for="defaultForm-pass">{{ field.value.Label }}</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                              <!-- Card header -->
-                              <div class="card-header" role="tab" id="headingOne">
-                                  <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                      <h5 class="mb-0">
-                                          Collapsible Group Item #1
-                                          <i class="fa fa-angle-down rotate-icon"></i>
-                                      </h5>
-                                  </a>
-                              </div>
+                                                    <!-- <div [style.display]="(field.value.Type == 1 && field.value.Id == 'd2de1189-2d6c-4fc2-9567-1d0bde49ba92') ? 'block' : 'none'">
+                                                        <div formArrayName="Answers">
+                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                <mat-form-field>
+                                                                    <textarea matInput placeholder="{{ field.value.Label }}" formControlName="Data_FR"></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                              <!-- Card body -->
-                              <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx">
-                                  <div class="card-body">
-                                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                                      non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                                      Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
-                                      nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes
-                                      anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-                                      Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
-                                      probably haven't heard of them accusamus labore sustainable VHS.
-                                  </div>
-                              </div>
-                          </div>
-                          <!-- Accordion card -->
+                                                    <div [style.display]=" field.value.Type == 1 && (!(field.value.Id == 'd2de1189-2d6c-4fc2-9567-1d0bde49ba92') && !(field.value.Id == '01e0d9a6-77dd-4a2f-a8ae-d4bae6ed705d')) ? 'block' : 'none'">
+                                                        <div formArrayName="Answers">
+                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                <mat-form-field>
+                                                                    <input matInput placeholder="{{ field.value.Label }}" formControlName="Data_FR">
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                          <!-- Accordion card -->
-                          <div class="card">
+                                                    <div [style.display]=" field.value.Type == 3 ? 'block' : 'none'">
+                                                        <app-radiowithfreetext [field]="field"></app-radiowithfreetext>
+                                                    </div>
 
-                              <!-- Card header -->
-                              <div class="card-header" role="tab" id="headingTwo">
-                                  <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                      <h5 class="mb-0">
-                                          Collapsible Group Item #2
-                                          <i class="fa fa-angle-down rotate-icon"></i>
-                                      </h5>
-                                  </a>
-                              </div>
+                                                    <div [style.display]=" field.value.Type == 9 ? 'block' : 'none'">
+                                                        <div formArrayName="Answers">
+                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                <mat-form-field>
+                                                                    <input matInput type="number" placeholder="{{ field.value.Label }}" formControlName="Data_FR">
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                              <!-- Card body -->
-                              <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordionEx">
-                                  <div class="card-body">
-                                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                                      non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                                      Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
-                                      nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes
-                                      anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-                                      Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
-                                      probably haven't heard of them accusamus labore sustainable VHS.
-                                  </div>
-                              </div>
-                          </div>
-                          <!-- Accordion card -->
+                                                    <div [style.display]=" field.value.Type == 6 ? 'block' : 'none'">
+                                                        <div formArrayName="Answers">
+                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                <mat-checkbox formControlName="Data_FR">{{ field.value.Label }}</mat-checkbox>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                          <!-- Accordion card -->
-                          <div class="card">
+                                                    <div [style.display]=" field.value.Type == 7 ? 'block' : 'none'">
+                                                        <div formArrayName="Answers">
+                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                <mat-form-field>
+                                                                    <input matInput type="date" placeholder="{{ field.value.Label }}" formControlName="Data_FR">
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                              <!-- Card header -->
-                              <div class="card-header" role="tab" id="headingThree">
-                                  <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                      <h5 class="mb-0">
-                                          Collapsible Group Item #3
-                                          <i class="fa fa-angle-down rotate-icon"></i>
-                                      </h5>
-                                  </a>
-                              </div>
+                                                    <div [style.display]=" field.value.Type == 16 ? 'block' : 'none'">
+                                                        <div formArrayName="Answers">
+                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                <mat-form-field>
+                                                                    <input matInput type="password" placeholder="{{ field.value.Label }} test" formControlName="Data_FR">
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                              <!-- Card body -->
-                              <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordionEx">
-                                  <div class="card-body">
-                                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                                      non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                                      Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
-                                      nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes
-                                      anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-                                      Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
-                                      probably haven't heard of them accusamus labore sustainable VHS.
-                                  </div>
-                              </div>
-                          </div>
-                          <!-- Accordion card -->
-                      </div>
-                      <!--/.Accordion wrapper-->
+                                                    <div [style.display]=" field.value.Type == 4 ? 'block' : 'none'">
+                                                        <div formArrayName="Answers">
+                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                <mat-checkbox formControlName="Data_FR">{{ field.value.Label }}</mat-checkbox>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div [style.display]=" field.value.Type == 5 ? 'block' : 'none'">
+                                                        <label class="label-ellipsis">
+                                                            <b>{{ field.value.Label }} </b>
+                                                        </label>
+                                                        <div formArrayName="Answers">
+                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="Data_FR">
+                                                                    <mat-button-toggle value="True">True</mat-button-toggle>
+                                                                    <mat-button-toggle value="null">null</mat-button-toggle>
+                                                                    <mat-button-toggle value="False">False</mat-button-toggle>
+                                                                </mat-button-toggle-group>
+                                                            </div>
+                                                        </div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mdb-item-body>
+                        </mdb-item>
+                    </mdb-squeezebox>
+
+                    <!--/.Accordion wrapper-->
 
 
-                      <!-- <mat-accordion>
+                    <!-- <mat-accordion>
                           <mat-expansion-panel [formGroupName]="a" *ngFor="let desc of getDescriptif(descriptifForm); let a = index">
                               <mat-expansion-panel-header>
                                   {{ desc.value.Title }}
@@ -341,8 +378,8 @@
                               </ng-template>
                           </mat-expansion-panel>
                       </mat-accordion> -->
-                  </div>
-              </form>
-          </div>
-      </div>
-  </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
