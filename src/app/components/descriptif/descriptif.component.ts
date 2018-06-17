@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder, Validators, FormArray, FormControl, AbstractControl } from '@angular/forms';
 import { DescriptifService } from '../../services/descriptif.service';
 import { EmployeeDto } from '../../_shared/model/employeeDto';
@@ -6,6 +6,8 @@ import { DescriptifDto } from '../../_shared/model/descriptifDto';
 import { DescriptifGroupDto } from '../../_shared/model/descriptifGroupDto';
 import { DescriptifGroupFieldDto } from '../../_shared/model/descriptifGroupFieldDto';
 import { DescriptifGroupFieldAnswerDto } from '../../_shared/model/descriptifGroupFieldAnswerDto';
+
+declare var $: any;
 
 @Component({
   templateUrl: './descriptif.component.html',
@@ -20,6 +22,21 @@ export class DescriptifComponent implements OnInit {
 
   constructor(private _fb: FormBuilder, private _service: DescriptifService) {
   }
+
+  public itemsList:Object[] = [
+    {
+        title: 'Collapsible Group Item #1',
+        description: 'Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven\'t heard of them accusamus labore sustainable VHS.'
+    },
+     {
+        title: 'Collapsible Group Item #2',
+        description: 'Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven\'t heard of them accusamus labore sustainable VHS.'
+    },
+     {
+        title: 'Collapsible Group Item #3',
+        description: 'Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven\'t heard of them accusamus labore sustainable VHS.'
+    }
+]
 
   ngOnInit(): void {
     this.descriptifForm = this._fb.group({
@@ -123,7 +140,7 @@ export class DescriptifComponent implements OnInit {
     this._service.saveData(model).subscribe(res => {
       // this._toastr.success('Successfully saved.');
       // this.blockUI.stop();
-      this.activeIds = [];
+      // this.activeIds = [];
     });
   }
 
@@ -197,9 +214,11 @@ export class DescriptifComponent implements OnInit {
 
   private createGroups(groups: DescriptifGroupDto[]): FormArray {
     let groupsArray = this._fb.array([]);
-    groups.forEach((group) => {
-      groupsArray.push(this.createGroup(group));
-    });
+    if (groups) {
+      groups.forEach((group) => {
+        groupsArray.push(this.createGroup(group));
+      });
+    }
     return groupsArray;
   }
 
@@ -219,9 +238,11 @@ export class DescriptifComponent implements OnInit {
 
   private createFields(fields: DescriptifGroupFieldDto[]): FormArray {
     let fieldsArray = this._fb.array([]);
-    fields.forEach((field) => {
-      fieldsArray.push(this.createField(field));
-    });
+    if (fields) {
+      fields.forEach((field) => {
+        fieldsArray.push(this.createField(field));
+      });
+    }
     return fieldsArray
   }
 
@@ -247,9 +268,11 @@ export class DescriptifComponent implements OnInit {
 
   private createAnswers(answers: DescriptifGroupFieldAnswerDto[], isRequired: boolean = false): FormArray {
     let answersArray = this._fb.array([]);
-    answers.forEach((aswer) => {
-      answersArray.push(this.createAnswer(aswer, isRequired));
-    });
+    if (answers) {
+      answers.forEach((aswer) => {
+        answersArray.push(this.createAnswer(aswer, isRequired));
+      });
+    }
     return answersArray
   }
 
@@ -270,5 +293,6 @@ export class DescriptifComponent implements OnInit {
 
     return ans;
   }
+  
 
 }

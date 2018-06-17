@@ -1,4 +1,18 @@
-
+<!--Accordion wrapper-->
+<mdb-squeezebox [multiple]="false" aria-multiselectable="true">
+    <mdb-item [collapsed]="false" *ngFor="let item of itemsList">
+        <mdb-item-head class="btn-success waves-light mb-1" mdbWavesEffect> {{ item.title }} </mdb-item-head>
+        <mdb-item-body> {{ item.description }}
+            <mdb-squeezebox [multiple]="false" aria-multiselectable="true">
+                <mdb-item [collapsed]="false" *ngFor="let item of itemsList; let i = index">
+                    <mdb-item-head id="{{ i }}" class="btn-success waves-light mb-1" mdbWavesEffect> {{ item.title }} </mdb-item-head>
+                    <mdb-item-body id="{{ i }}"> {{ item.description }} </mdb-item-body>
+                </mdb-item>
+            </mdb-squeezebox>
+        </mdb-item-body>
+    </mdb-item>
+</mdb-squeezebox>
+<!--/.Accordion wrapper-->
 
 <div class="container-fluid">
     <!-- <pre>Value: {{ descriptifsDto?.value | json }}</pre>
@@ -24,131 +38,307 @@
             <form [formGroup]="descriptifForm" novalidate class="form-control-sm">
                 <div formArrayName="data">
                     <!--Accordion wrapper start here-->
- 
+
                     <mdb-squeezebox [multiple]="false" aria-multiselectable="true">
                         <mdb-item [collapsed]="true" [formGroupName]="a" *ngFor="let desc of getDescriptif(descriptifForm); let a = index">
                             <mdb-item-head class="btn-success waves-light mb-1" mdbWavesEffect>{{ desc.value.Title }}</mdb-item-head>
-                            <mdb-item-body> 
-                                <div formArrayName="Groups">
+                            <mdb-item-body class="border">
+                                <div class="col-12" formArrayName="Groups">
                                     <div *ngIf="desc.value.Id != 69">
                                         <div [formGroupName]="b" *ngFor="let group of getGroups(desc); let b = index">
-                                            <div formArrayName="Fields">
-                                                <div class="row" [formGroupName]="c" *ngFor="let field of getFields(group); let c = index">
+                                            <div formArrayName="Fields" class="col-12">
+                                                <div [formGroupName]="c" *ngFor="let field of getFields(group); let c = index">
+
                                                     <div class="form-group col-3" *ngIf="(field.value.Type == 1 && field.value.Id == '01e0d9a6-77dd-4a2f-a8ae-d4bae6ed705d')">
                                                         <div formArrayName="Answers">
                                                             <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
                                                                 <div class="md-form">
-                                                                    <input type="text" formControlName="Data_FR" class="form-control" id="titre" mdbInputDirective>
-                                                                    <label for="titre">{{ field.value.Label }}</label>
+                                                                    <input type="text" formControlName="Data_FR" class="form-control" id="{{ field.value.Label }}{{ d }}" mdbInputDirective>
+                                                                    <label for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group col-12" *ngIf="(field.value.Type == 1 && field.value.Id == 'd2de1189-2d6c-4fc2-9567-1d0bde49ba92')">
+                                                    <div class="form-group col-10" *ngIf="(field.value.Type == 1 && field.value.Id == 'd2de1189-2d6c-4fc2-9567-1d0bde49ba92')">
                                                         <div formArrayName="Answers">
                                                             <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
                                                                 <div class="md-form">
-                                                                    <textarea formControlName="Data_FR" class="md-textarea form-control" id="defaultForm-pass" mdbInputDirective></textarea>
-                                                                    <label for="defaultForm-pass">{{ field.value.Label }}</label>
+                                                                    <textarea formControlName="Data_FR" class="md-textarea form-control" id="{{ field.value.Label }}{{ d }}" mdbInputDirective></textarea>
+                                                                    <label for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <!-- <div [style.display]="(field.value.Type == 1 && field.value.Id == 'd2de1189-2d6c-4fc2-9567-1d0bde49ba92') ? 'block' : 'none'">
+                                                    <div class="form-group col-3" *ngIf="field.value.Type == 1 && (!(field.value.Id == 'd2de1189-2d6c-4fc2-9567-1d0bde49ba92') && !(field.value.Id == '01e0d9a6-77dd-4a2f-a8ae-d4bae6ed705d'))">
                                                         <div formArrayName="Answers">
                                                             <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
-                                                                <mat-form-field>
-                                                                    <textarea matInput placeholder="{{ field.value.Label }}" formControlName="Data_FR"></textarea>
-                                                                </mat-form-field>
+                                                                <div class="md-form">
+                                                                    <input type="text" formControlName="Data_FR" class="form-control" id="{{ field.value.Label }}{{ d }}" mdbInputDirective>
+                                                                    <label class="label-ellipsis" for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div [style.display]=" field.value.Type == 1 && (!(field.value.Id == 'd2de1189-2d6c-4fc2-9567-1d0bde49ba92') && !(field.value.Id == '01e0d9a6-77dd-4a2f-a8ae-d4bae6ed705d')) ? 'block' : 'none'">
+                                                    <div class="form-group col-3" *ngIf="field.value.Type == 2">
                                                         <div formArrayName="Answers">
                                                             <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
-                                                                <mat-form-field>
-                                                                    <input matInput placeholder="{{ field.value.Label }}" formControlName="Data_FR">
-                                                                </mat-form-field>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" formControlName="Data_FR" type="radio" id="{{ field.value.Label }}{{ d }}">
+                                                                    <label class="form-check-label label-ellipsis" for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div [style.display]=" field.value.Type == 3 ? 'block' : 'none'">
-                                                        <app-radiowithfreetext [field]="field"></app-radiowithfreetext>
-                                                    </div>
+                                                    <!-- <div class="form-group col-3" *ngIf="field.value.Type == 3">
+                                                    <app-radiowithfreetext [field]="field"></app-radiowithfreetext>
+                                                </div> -->
 
-                                                    <div [style.display]=" field.value.Type == 9 ? 'block' : 'none'">
+                                                    <div class="form-group col-3" *ngIf="field.value.Type == 6">
                                                         <div formArrayName="Answers">
                                                             <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
-                                                                <mat-form-field>
-                                                                    <input matInput type="number" placeholder="{{ field.value.Label }}" formControlName="Data_FR">
-                                                                </mat-form-field>
+                                                                <div class="form-check pl-0">
+                                                                    <input type="checkbox" class="form-check-input" id="{{ field.value.Label }}{{ d }}" formControlName="Data_FR" mdbInputDirective>
+                                                                    <label class="form-check-label" for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div [style.display]=" field.value.Type == 6 ? 'block' : 'none'">
+                                                    <div class="form-group col-3" *ngIf="field.value.Type == 7">
                                                         <div formArrayName="Answers">
                                                             <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
-                                                                <mat-checkbox formControlName="Data_FR">{{ field.value.Label }}</mat-checkbox>
+                                                                <div style="margin-top: -8px">
+                                                                    <mdb-date-picker placeholder="{{ field.value.Label }}" formControlName="Data_FR"></mdb-date-picker>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div [style.display]=" field.value.Type == 7 ? 'block' : 'none'">
+                                                    <div class="form-group col-3" *ngIf="field.value.Type == 9">
                                                         <div formArrayName="Answers">
                                                             <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
-                                                                <mat-form-field>
-                                                                    <input matInput type="date" placeholder="{{ field.value.Label }}" formControlName="Data_FR">
-                                                                </mat-form-field>
+                                                                <div class="md-form">
+                                                                    <input type="number" formControlName="Data_FR" class="form-control" id="{{ field.value.Label }}{{ d }}" mdbInputDirective>
+                                                                    <label class="label-ellipsis" for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div [style.display]=" field.value.Type == 16 ? 'block' : 'none'">
+                                                    <div class="form-group col-3" *ngIf="field.value.Type == 16">
                                                         <div formArrayName="Answers">
                                                             <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
-                                                                <mat-form-field>
-                                                                    <input matInput type="password" placeholder="{{ field.value.Label }} test" formControlName="Data_FR">
-                                                                </mat-form-field>
+                                                                <div class="md-form">
+                                                                    <input type="password" formControlName="Data_FR" class="form-control" id="{{ field.value.Label }}{{ d }}" mdbInputDirective>
+                                                                    <label for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div [style.display]=" field.value.Type == 4 ? 'block' : 'none'">
-                                                        <div formArrayName="Answers">
-                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
-                                                                <mat-checkbox formControlName="Data_FR">{{ field.value.Label }}</mat-checkbox>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div [style.display]=" field.value.Type == 5 ? 'block' : 'none'">
+                                                    <div class="form-group col-3" *ngIf="field.value.Type == 5">
                                                         <label class="label-ellipsis">
                                                             <b>{{ field.value.Label }} </b>
                                                         </label>
                                                         <div formArrayName="Answers">
                                                             <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
-                                                                <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="Data_FR">
-                                                                    <mat-button-toggle value="True">True</mat-button-toggle>
-                                                                    <mat-button-toggle value="null">null</mat-button-toggle>
-                                                                    <mat-button-toggle value="False">False</mat-button-toggle>
-                                                                </mat-button-toggle-group>
+                                                                <!-- <div class="btn-group" role="group" formControlName="Data_FR">
+                                                                    <button type="button" class="btn btn-primary" value="True">True</button>
+                                                                    <button type="button" class="btn btn-primary" value="null">null</button>
+                                                                    <button type="button" class="btn btn-primary" value="False">False</button>
+                                                                </div> -->
+
+                                                                <!-- <div class="btn-group" data-toggle="buttons" formControlName="Data_FR">
+                                                                    <label class="btn btn-light-blue form-check-label active">
+                                                                        <input class="form-check-input" type="radio" name="options" id="option1" autocomplete="off" checked> Preselected
+                                                                    </label>
+                                                                    <label class="btn btn-light-blue form-check-label">
+                                                                        <input class="form-check-input" type="radio" name="options" id="option2" autocomplete="off"> Radio
+                                                                    </label>
+                                                                    <label class="btn btn-light-blue form-check-label">
+                                                                        <input class="form-check-input" type="radio" name="options" id="option3" autocomplete="off"> Radio
+                                                                    </label>
+                                                                </div> -->
                                                             </div>
                                                         </div>
-                                                    </div> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div formArrayName="Fields" class="col-12">
+                                                <div [formGroupName]="c" *ngFor="let field of getFields(group); let c = index">
+                                                    <div class="form-group col-3" *ngIf="field.value.Type == 4">
+                                                        <div formArrayName="Answers">
+                                                            <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                <div class="form-check pl-0">
+                                                                    <input type="checkbox" class="form-check-input" id="{{ field.value.Label }}{{ d }}" formControlName="IsSelected" mdbInputDirective>
+                                                                    <label class="form-check-label" for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div *ngIf="desc.value.Id == 69">
+                                        <button type="button" (click)="openDialog(desc)" class="btn btn-default waves-light" mdbWavesEffect>New</button>
+                                        <mdb-squeezebox [multiple]="false" aria-multiselectable="true">
+                                            <mdb-item [collapsed]="true" [formGroupName]="b" *ngFor="let group of getGroups(desc); let b = index">
+                                                <mdb-item-head class="btn-success waves-light mb-1" mdbWavesEffect>
+                                                    {{ group.value.Title }}
+                                                    <i class="fa fa-edit ml-2 mr-2" *ngIf="b != 0" (click)="edit(group)"></i>
+                                                    <i class="fa fa-delete" *ngIf="b != 0" (click)="delete(group)"></i>
+                                                </mdb-item-head>
+                                                <mdb-item-body class="border">
+                                                    <div formArrayName="Fields" class="col-12">
+                                                        <div [formGroupName]="c" *ngFor="let field of getFields(group); let c = index">
+
+                                                            <div class="form-group col-3" *ngIf="(field.value.Type == 1 && field.value.Id == '01e0d9a6-77dd-4a2f-a8ae-d4bae6ed705d')">
+                                                                <div formArrayName="Answers">
+                                                                    <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                        <div class="md-form">
+                                                                            <input type="text" formControlName="Data_FR" class="form-control" id="{{ field.value.Label }}{{ d }}" mdbInputDirective>
+                                                                            <label for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-10" *ngIf="(field.value.Type == 1 && field.value.Id == 'd2de1189-2d6c-4fc2-9567-1d0bde49ba92')">
+                                                                <div formArrayName="Answers">
+                                                                    <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                        <div class="md-form">
+                                                                            <textarea formControlName="Data_FR" class="md-textarea form-control" id="{{ field.value.Label }}{{ d }}" mdbInputDirective></textarea>
+                                                                            <label for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-3" *ngIf="field.value.Type == 1 && (!(field.value.Id == 'd2de1189-2d6c-4fc2-9567-1d0bde49ba92') && !(field.value.Id == '01e0d9a6-77dd-4a2f-a8ae-d4bae6ed705d'))">
+                                                                <div formArrayName="Answers">
+                                                                    <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                        <div class="md-form">
+                                                                            <input type="text" formControlName="Data_FR" class="form-control" id="{{ field.value.Label }}{{ d }}" mdbInputDirective>
+                                                                            <label class="label-ellipsis" for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-3" *ngIf="field.value.Type == 2">
+                                                                <div formArrayName="Answers">
+                                                                    <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" formControlName="Data_FR" type="radio" id="{{ field.value.Label }}{{ d }}">
+                                                                            <label class="form-check-label label-ellipsis" for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- <div class="form-group col-3" *ngIf="field.value.Type == 3">
+                                                                    <app-radiowithfreetext [field]="field"></app-radiowithfreetext>
+                                                                </div> -->
+
+                                                            <div class="form-group col-3" *ngIf="field.value.Type == 6">
+                                                                <div formArrayName="Answers">
+                                                                    <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                        <div class="form-check pl-0">
+                                                                            <input type="checkbox" class="form-check-input" id="{{ field.value.Label }}{{ d }}" formControlName="Data_FR" mdbInputDirective>
+                                                                            <label class="form-check-label" for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-3" *ngIf="field.value.Type == 7">
+                                                                <div formArrayName="Answers">
+                                                                    <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                        <div style="margin-top: -8px">
+                                                                            <mdb-date-picker placeholder="{{ field.value.Label }}" formControlName="Data_FR"></mdb-date-picker>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-3" *ngIf="field.value.Type == 9">
+                                                                <div formArrayName="Answers">
+                                                                    <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                        <div class="md-form">
+                                                                            <input type="number" formControlName="Data_FR" class="form-control" id="{{ field.value.Label }}{{ d }}" mdbInputDirective>
+                                                                            <label class="label-ellipsis" for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-3" *ngIf="field.value.Type == 16">
+                                                                <div formArrayName="Answers">
+                                                                    <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                        <div class="md-form">
+                                                                            <input type="password" formControlName="Data_FR" class="form-control" id="{{ field.value.Label }}{{ d }}" mdbInputDirective>
+                                                                            <label for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-3" *ngIf="field.value.Type == 5">
+                                                                <label class="label-ellipsis">
+                                                                    <b>{{ field.value.Label }} </b>
+                                                                </label>
+                                                                <div formArrayName="Answers">
+                                                                    <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                        <!-- <div class="btn-group" role="group" formControlName="Data_FR">
+                                                                                    <button type="button" class="btn btn-primary" value="True">True</button>
+                                                                                    <button type="button" class="btn btn-primary" value="null">null</button>
+                                                                                    <button type="button" class="btn btn-primary" value="False">False</button>
+                                                                                </div> -->
+
+                                                                        <!-- <div class="btn-group" data-toggle="buttons" formControlName="Data_FR">
+                                                                                    <label class="btn btn-light-blue form-check-label active">
+                                                                                        <input class="form-check-input" type="radio" name="options" id="option1" autocomplete="off" checked> Preselected
+                                                                                    </label>
+                                                                                    <label class="btn btn-light-blue form-check-label">
+                                                                                        <input class="form-check-input" type="radio" name="options" id="option2" autocomplete="off"> Radio
+                                                                                    </label>
+                                                                                    <label class="btn btn-light-blue form-check-label">
+                                                                                        <input class="form-check-input" type="radio" name="options" id="option3" autocomplete="off"> Radio
+                                                                                    </label>
+                                                                                </div> -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div formArrayName="Fields" class="col-12">
+                                                        <div [formGroupName]="c" *ngFor="let field of getFields(group); let c = index">
+                                                            <div class="form-group col-3" *ngIf="field.value.Type == 4">
+                                                                <div formArrayName="Answers">
+                                                                    <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+                                                                        <div class="form-check pl-0">
+                                                                            <input type="checkbox" class="form-check-input" id="{{ field.value.Label }}{{ d }}" formControlName="IsSelected" mdbInputDirective>
+                                                                            <label class="form-check-label" for="{{ field.value.Label }}{{ d }}">{{ field.value.Label }}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </mdb-item-body>
+                                            </mdb-item>
+                                        </mdb-squeezebox>
+
                                     </div>
                                 </div>
                             </mdb-item-body>
                         </mdb-item>
                     </mdb-squeezebox>
-
                     <!--/.Accordion wrapper-->
 
 

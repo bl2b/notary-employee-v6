@@ -1,0 +1,55 @@
+<div [formGroup]="field" class="" style="margin-bottom: 1px;">
+  <!-- <pre>{{field.value | json}}</pre> -->
+  <div formArrayName="Answers">
+    <div [formGroupName]="d" *ngFor="let answer of getAnswers(field); let d = index">
+      <div class="md-form row">
+        <mdb-select class="col-10" style="margin-top:-10px" [options]="getOptions(field.value.DefaultAnswers)" placeholder="{{ field.value.Label }}" formControlName="Data_FR"></mdb-select>
+        <span (click)="demoBasic.show()" class="col-2" style="cursor: pointer">
+          <i class="fa fa-edit"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [formGroup]="field" mdbModal #demoBasic="mdb-modal" class="modal fade" id="basicExample" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100" id="myModalLabel">{{ field.value.Label }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="demoBasic.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="customAnswer" novalidate class="form-control-sm">
+          <div class="md-form">
+            <input type="text" formControlName="Data" class="form-control" id="Data" mdbInputDirective>
+            <label for="Label FR">Data</label>
+          </div>
+          <div class="md-form">
+            <input type="text" formControlName="Data_FR" class="form-control" id="Label FR" mdbInputDirective>
+            <label for="Label FR">Data FR</label>
+          </div>
+          <div class="md-form">
+            <input type="text" formControlName="Data_DE" class="form-control" id="Label DE" mdbInputDirective>
+            <label for="Label FR">Data DE</label>
+          </div>
+          <div class="md-form">
+            <input type="text" formControlName="Data_EN" class="form-control" id="Label EN" mdbInputDirective>
+            <label for="Label FR">Data EN</label>
+          </div>
+          <div class="md-form">
+            <input type="text" formControlName="Data_NL" class="form-control" id="Label NL" mdbInputDirective>
+            <label for="Label FR">Data NL</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="delete(); demoBasic.hide()" mdbWavesEffect>Delete</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="done(); demoBasic.hide()" mdbWavesEffect>Done</button>
+      </div>
+    </div>
+  </div>
+</div>

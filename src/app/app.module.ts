@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { DescriptifComponent } from './components/descriptif/descriptif.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MDBSpinningPreloader, MDBBootstrapModulesPro, ToastModule } from 'ng-uikit-pro-standard'
+import { MDBSpinningPreloader, MDBBootstrapModulesPro, ToastModule } from 'ng-uikit-pro-standard';
+import { RadiowithfreetextComponent } from './components/radiowithfreetext/radiowithfreetext.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    DescriptifComponent
+    DescriptifComponent,
+    RadiowithfreetextComponent
   ],
   imports: [
     BrowserModule,

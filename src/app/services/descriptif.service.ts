@@ -24,7 +24,7 @@ export class DescriptifService {
   }
 
   saveData(model: EmployeeDto): Observable<boolean> {
-      return this._http.post(apiReference.Descriptif_API_POST, JSON.stringify(model), { headers: this._authService.getToken() }).pipe(
+      return this._http.post(apiReference.Descriptif_API_POST, model, { headers: this._authService.getToken() }).pipe(
       map(res => {
         return true;
       })

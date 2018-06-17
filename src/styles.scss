@@ -1,4 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
-.test {
-    background: violet
-}
+
+.form-group.col-3{
+    float:left;
+   }
+ 
+  .form-group.col-10{
+    float:left;
+ }
+ 
+   .label-ellipsis {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     width: 100%;
+     margin: 0;
+   }
+   .col-12 {
+       padding:0;
+       float:left;
+   }
+
+   .clearfix {
+       clear: both;
+   }
